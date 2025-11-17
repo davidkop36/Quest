@@ -42,4 +42,398 @@
       border-radius: 16px;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-      border: 1px solid rgba(148, 163, 184,
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: #020617;
+      color: #f9fafb;
+      outline: none;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(148, 163, 184, 0.8);
+    }
+
+    button {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      background: #22c55e;
+      color: #020617;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(34, 197, 94, 0.35);
+      background: #16a34a;
+    }
+
+    .progress {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      opacity: 0.85;
+    }
+
+    .message {
+      min-height: 1.2em;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .message.ok {
+      color: #4ade80;
+    }
+
+    .message.error {
+      color: #fb7185;
+    }
+
+    .tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      margin-bottom: 12px;
+    }
+
+    .tile {
+      border-radius: 12px;
+      padding: 12px;
+      background: radial-gradient(circle at top left, #1e293b, #020617);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      font-size: 0.85rem;
+      min-height: 80px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0.3;
+      transform: scale(0.98);
+      transition: opacity 0.2s ease, transform 0.2s ease, border-style 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .tile::before {
+      content: "???";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(148, 163, 184, 0.8);
+    }
+
+    .tile.revealed {
+      opacity: 1;
+      transform: scale(1.0);
+      border-style: solid;
+      box-shadow: 0 12px 25px rgba(30, 64, 175, 0.4);
+    }
+
+    .tile.revealed::before {
+      content: "";
+    }
+
+    .tile-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+
+    .tile-text {
+      font-size: 0.9rem;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      opacity: 0.75;
+      margin-top: 4px;
+    }
+
+    #final-section {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      display: none;
+    }
+
+    #final-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    #final-text {
+      font-size: 0.95rem;
+    }
+
+    .small-note {
+      font-size: 0.7rem;
+      opacity: 0.6;
+      margin-top: 8px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.7rem;
+      opacity: 0.55;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Andrey's Birthday Quest</h1>
+    <div class="subtitle">
+      Hey, you. Enter any codes you discover in the real world. <br>
+      Collect enough, and the final secret will unlock.
+    </div>
+
+    <div class="card">
+      <div class="input-row">
+        <input
+          type="text"
+          id="code-input"
+          placeholder="Type a code and press Enter or the button..."
+          autocomplete="off"
+        >
+        <button id="submit-btn">Unlock</button>
+      </div>
+
+      <div id="progress" class="progress">
+        You haven’t unlocked any clues yet.
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div class="tiles-grid" id="tiles-grid">
+        <!-- Tiles are inserted here by JavaScript -->
+      </div>
+
+      <div class="hint">
+        Hint: not every code is needed. A true explorer can solve the final mystery without finding them all.
+      </div>
+
+      <div id="final-section">
+        <div id="final-title">Final Secret Unlocked</div>
+        <div id="final-text"></div>
+        <div class="small-note">
+          You don’t need every single clue – just enough to see the full picture.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Hope you like it <3.
+    </div>
+  </div>
+
+  <script>
+    /************************************************************
+     * 1. CONFIGURATION – EDIT THIS PART ONLY
+     ************************************************************/
+
+    const MIN_CODES_REQUIRED = 5;
+
+    const VALID_CODES = {
+      "COMET": 0,
+      "RIVER": 1,
+      "MAGNET": 2,
+      "ULTRAVIOLET": 3,
+      "GEOCACHE": 4,
+      "ORBIT": 5,
+      "METEOR": 6,
+      "BIRTHDAY": 7
+    };
+
+    const TILE_TEXTS = [
+      {
+        label: "Fragment I",
+        text: "Tonight, at eight o'clock, under the trees by the water,"
+      },
+      {
+        label: "Fragment II",
+        text: "we meet where the river bends and the city lights begin to blur."
+      },
+      {
+        label: "Fragment III",
+        text: "Look for a spot where runners pass and cyclists share the path,"
+      },
+      {
+        label: "Fragment IV",
+        text: `Hey, there, answers <i>finder</i>. The answer to this puzzle is simple – NDEFAG.
+               I know you hate nicknames, but this one is special.
+               It <b>reminds</b> you that you are <i>dealing</i> with something that is not as it seems on the first glance.`
+      },
+      {
+        label: "Fragment V",
+        text: "There will be a small celebration waiting – for one very specific Andrey."
+      },
+      {
+        label: "Fragment VI",
+        text: "Follow the glow of candles and maybe something slightly ridiculous."
+      },
+      {
+        label: "Fragment VII",
+        text: "If you’re not sure which bench, trust the compass of our shared adventures."
+      },
+      {
+        label: "Fragment VIII",
+        text: "When in doubt, message your favorite quest-master for one last hint."
+      }
+    ];
+
+    const FINAL_MESSAGE = `
+      You’ve collected enough clues to triangulate the truth.<br><br>
+      <strong>Final instructions:</strong><br>
+      • Time: <strong>20:00</strong><br>
+      • Place: <strong>HaYarkon Park, riverside path near the big bend, on a bench with a view of the water.</strong><br><br>
+      Look for something glowing, slightly silly, and definitely for you. 🎂🌌
+    `;
+
+    const STORAGE_KEY = "andrey_birthday_quest_codes_v1";
+
+    /************************************************************
+     * 2. INTERNAL LOGIC
+     ************************************************************/
+
+    const codeInput = document.getElementById("code-input");
+    const submitBtn = document.getElementById("submit-btn");
+    const messageEl = document.getElementById("message");
+    const progressEl = document.getElementById("progress");
+    const tilesGrid = document.getElementById("tiles-grid");
+    const finalSection = document.getElementById("final-section");
+    const finalText = document.getElementById("final-text");
+
+    function createTiles() {
+      tilesGrid.innerHTML = "";
+      TILE_TEXTS.forEach((tile, index) => {
+        const div = document.createElement("div");
+        div.className = "tile";
+        div.dataset.index = index;
+
+        const label = document.createElement("div");
+        label.className = "tile-label";
+        label.textContent = tile.label;
+
+        const text = document.createElement("div");
+        text.className = "tile-text";
+        text.innerHTML = tile.text;   // <-- FIXED HERE
+
+        div.appendChild(label);
+        div.appendChild(text);
+        tilesGrid.appendChild(div);
+      });
+    }
+
+    function loadFoundCodes() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (!stored) return new Set();
+        return new Set(JSON.parse(stored));
+      } catch {
+        return new Set();
+      }
+    }
+
+    function saveFoundCodes(set) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+      } catch {}
+    }
+
+    let foundCodes = loadFoundCodes();
+
+    function updateProgressAndTiles(showFeedback) {
+      const count = foundCodes.size;
+      const total = Object.keys(VALID_CODES).length;
+
+      if (count === 0) {
+        progressEl.textContent = "You haven’t unlocked any clues yet.";
+      } else if (count < MIN_CODES_REQUIRED) {
+        progressEl.textContent = `You’ve unlocked ${count} out of ${total} clues. You need at least ${MIN_CODES_REQUIRED} to unlock the final secret.`;
+      } else {
+        progressEl.textContent = `You’ve unlocked ${count} clues. The final secret is now available.`;
+      }
+
+      const allTiles = tilesGrid.querySelectorAll(".tile");
+      allTiles.forEach(t => t.classList.remove("revealed"));
+
+      foundCodes.forEach(code => {
+        const tileIndex = VALID_CODES[code];
+        const tileEl = tilesGrid.querySelector(`.tile[data-index="${tileIndex}"]`);
+        if (tileEl) tileEl.classList.add("revealed");
+      });
+
+      if (count >= MIN_CODES_REQUIRED) {
+        finalSection.style.display = "block";
+        finalText.innerHTML = FINAL_MESSAGE;
+      } else {
+        finalSection.style.display = "none";
+      }
+
+      if (showFeedback) {
+        messageEl.textContent = "";
+        messageEl.className = "message";
+      }
+    }
+
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = "message " + (type === "error" ? "error" : "ok");
+    }
+
+    function handleSubmit() {
+      const raw = codeInput.value.trim();
+      if (!raw) return;
+
+      const code = raw.toUpperCase();
+      codeInput.value = "";
+
+      if (!VALID_CODES.hasOwnProperty(code)) {
+        showMessage("That doesn’t seem to be a valid code. Try again… or find another clue.", "error");
+        return;
+      }
+
+      if (foundCodes.has(code)) {
+        showMessage("You already used that code. The clue is still valid – but you can’t double-count it.", "error");
+        return;
+      }
+
+      foundCodes.add(code);
+      saveFoundCodes(foundCodes);
+      showMessage("Code accepted. A new fragment has been unlocked.", "ok");
+      updateProgressAndTiles(false);
+    }
+
+    submitBtn.addEventListener("click", handleSubmit);
+    codeInput.addEventListener("keydown", evt => {
+      if (evt.key === "Enter") {
+        evt.preventDefault();
+        handleSubmit();
+      }
+    });
+
+    createTiles();
+    updateProgressAndTiles(true);
+  </script>
+</body>
+</html>
