@@ -349,7 +349,7 @@
 
         const text = document.createElement("div");
         text.className = "tile-text";
-        text.textContent = tile.text;
+        text.innerHTML = tile.text;     // ✅ This renders <i> and <b>
 
         div.appendChild(label);
         div.appendChild(text);
