@@ -25,10 +25,7 @@
       box-sizing: border-box;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 8px;
-    }
+    h1 { text-align: center; margin-bottom: 8px; }
 
     .subtitle {
       text-align: center;
@@ -46,11 +43,7 @@
       backdrop-filter: blur(4px);
     }
 
-    .input-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
+    .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
 
     input[type="text"] {
       flex: 1;
@@ -63,9 +56,7 @@
       font-size: 0.95rem;
     }
 
-    input[type="text"]::placeholder {
-      color: rgba(148, 163, 184, 0.8);
-    }
+    input[type="text"]::placeholder { color: rgba(148, 163, 184, 0.8); }
 
     button {
       padding: 10px 16px;
@@ -86,25 +77,11 @@
       background: #16a34a;
     }
 
-    .progress {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      opacity: 0.85;
-    }
+    .progress { font-size: 0.9rem; margin-bottom: 8px; opacity: 0.85; }
 
-    .message {
-      min-height: 1.2em;
-      font-size: 0.85rem;
-      margin-bottom: 16px;
-    }
-
-    .message.ok {
-      color: #4ade80;
-    }
-
-    .message.error {
-      color: #fb7185;
-    }
+    .message { min-height: 1.2em; font-size: 0.85rem; margin-bottom: 16px; }
+    .message.ok { color: #4ade80; }
+    .message.error { color: #fb7185; }
 
     .tiles-grid {
       display: grid;
@@ -147,9 +124,7 @@
       box-shadow: 0 12px 25px rgba(30, 64, 175, 0.4);
     }
 
-    .tile.revealed::before {
-      content: "";
-    }
+    .tile.revealed::before { content: ""; }
 
     .tile-label {
       font-size: 0.7rem;
@@ -159,16 +134,9 @@
       margin-bottom: 4px;
     }
 
-    .tile-text {
-      font-size: 0.9rem;
-      white-space: pre-wrap; /* keeps your newlines in template literals */
-    }
+    .tile-text { font-size: 0.9rem; white-space: pre-wrap; }
 
-    .hint {
-      font-size: 0.8rem;
-      opacity: 0.75;
-      margin-top: 4px;
-    }
+    .hint { font-size: 0.8rem; opacity: 0.75; margin-top: 4px; }
 
     #final-section {
       margin-top: 20px;
@@ -177,34 +145,19 @@
       display: none;
     }
 
-    #final-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
+    #final-title { font-weight: 600; margin-bottom: 4px; }
+    #final-text { font-size: 0.95rem; }
 
-    #final-text {
-      font-size: 0.95rem;
-    }
+    .small-note { font-size: 0.7rem; opacity: 0.6; margin-top: 8px; }
 
-    .small-note {
-      font-size: 0.7rem;
-      opacity: 0.6;
-      margin-top: 8px;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 0.7rem;
-      opacity: 0.55;
-      margin-top: 12px;
-    }
+    .footer { text-align: center; font-size: 0.7rem; opacity: 0.55; margin-top: 12px; }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1><b>Andrey</b>'s Birthday Quest</h1>
 
-    <!-- Your colored date hint belongs in the BODY, not inside <style> -->
     <div class="hint" style="text-align:center; margin-bottom: 12px;">
       <span style="color:red;">17</span><span style="color:violet;">12</span>2025
     </div>
@@ -231,9 +184,7 @@
 
       <div id="message" class="message"></div>
 
-      <div class="tiles-grid" id="tiles-grid">
-        <!-- Tiles are inserted here by JavaScript -->
-      </div>
+      <div class="tiles-grid" id="tiles-grid"></div>
 
       <div class="hint">
         Hint: not every code is needed. A true explorer, like you, <b>Andrey</b>, can solve the final mystery without finding them all.
@@ -248,28 +199,21 @@
       </div>
     </div>
 
-    <div class="footer">
-      Hope you like it &lt;3.
-    </div>
+    <div class="footer">Hope you like it &lt;3.</div>
   </div>
 
   <script>
-    /************************************************************
-     * 1. CONFIGURATION – EDIT THIS PART ONLY
-     ************************************************************/
-
     const MIN_CODES_REQUIRED = 5;
 
     const FINAL_GATE_CODE = "225";
     const ENDING_PAGE = "./ending.html";
-
 
     const VALID_CODES = {
       "2": 0,
       "11": 1,
       "07122024": 2,
       "SEVEN": 3,
-      "7":3,
+      "7": 3,
       "GEOCACHE": 4,
       "ORBIT": 5,
       "METEOR": 6,
@@ -298,60 +242,42 @@ It’s part of coming and going.
 
 Notice what marks the threshold.`
       },
-     {
-  label: "Fragment III",
-  text:   text: `Some numbers don’t come from thinking.
+      {
+        label: "Fragment III",
+        text: `Some numbers don’t come from thinking.
 They come from living.
 
 They are constants written into our histories —
 days when a single decision quietly changed everything.
 
 At least, it did for one very visible foreign guy.`
-},
+      },
       {
         label: "Fragment IV",
         text: `Hey, there, answers <i>finder</i>. The answer to this puzzle is simple – <i>genei</i>. A useful tool for repharsing and re-expressing the same information. And yet, it also <b>reminds</b> you that you are <i>dealing</i> 
-        with something that is not as it seems on the first glance.
-        
-        I know,  <b>very</b> <i>nerd</i>-like of me.`
+with something that is not as it seems on the first glance.
+
+I know, <b>very</b> <i>nerd</i>-like of me.`
       },
-      {
-        label: "Fragment V",
-        text: "There will be a small celebration waiting – for one very specific Andrey."
-      },
-      {
-        label: "Fragment VI",
-        text: "Follow the glow of candles and maybe something slightly ridiculous."
-      },
-      {
-        label: "Fragment VII",
-        text: "If you’re not sure which bench, trust the compass of our shared adventures."
-      },
-      {
-        label: "Fragment VIII",
-        text: "When in doubt, message your favorite quest-master for one last hint."
-      }
+      { label: "Fragment V", text: "There will be a small celebration waiting – for one very specific Andrey." },
+      { label: "Fragment VI", text: "Follow the glow of candles and maybe something slightly ridiculous." },
+      { label: "Fragment VII", text: "If you’re not sure which bench, trust the compass of our shared adventures." },
+      { label: "Fragment VIII", text: "When in doubt, message your favorite quest-master for one last hint." }
     ];
 
     const FINAL_MESSAGE = `
       Good job Andrey! You’ve collected enough fragments.<br><br>
       <strong>Final riddle:</strong><br>
       But the last entry isn’t on this page.<br>
-  It’s on a souvenir that still smells like a holiday.<br>
-  Green leaves, yellow promise.<br><br>
+      It’s on a souvenir that still smells like a holiday.<br>
+      Green leaves, yellow promise.<br><br>
 
-Together with one more thing.<br>
-  Maybe we didn’t find any scorpions with it —<br>
-  but you might find something else.<br><br>
-
+      Together with one more thing.<br>
+      Maybe we didn’t find any scorpions with it —<br>
+      but you might find something else.<br><br>
     `;
 
-
     const STORAGE_KEY = "andrey_birthday_quest_codes_v1";
-
-    /************************************************************
-     * 2. INTERNAL LOGIC
-     ************************************************************/
 
     const codeInput = document.getElementById("code-input");
     const submitBtn = document.getElementById("submit-btn");
@@ -393,16 +319,14 @@ Together with one more thing.<br>
     }
 
     function saveFoundCodes(set) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
-      } catch {}
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...set])); } catch {}
     }
 
     let foundCodes = loadFoundCodes();
 
     function updateProgressAndTiles(showFeedback) {
       const count = foundCodes.size;
-      const total =  8;
+      const total = 8;
 
       if (count === 0) {
         progressEl.textContent = "You haven’t unlocked any clues yet.";
@@ -446,13 +370,12 @@ Together with one more thing.<br>
       const code = raw.toUpperCase();
       codeInput.value = "";
 
-            // If the final gate code is entered, go to the real ending
       if (code === FINAL_GATE_CODE) {
         window.location.href = ENDING_PAGE;
         return;
       }
 
-      if (!VALID_CODES.hasOwnProperty(code)) {
+      if (!Object.prototype.hasOwnProperty.call(VALID_CODES, code)) {
         showMessage("That doesn’t seem to be a valid code. Try again… or find another clue.", "error");
         return;
       }
