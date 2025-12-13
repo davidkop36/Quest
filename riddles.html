@@ -260,6 +260,10 @@
 
     const MIN_CODES_REQUIRED = 5;
 
+    const FINAL_GATE_CODE = "225";
+    const ENDING_PAGE = "./ending.html";
+
+
     const VALID_CODES = {
       "2": 0,
       "RIVER": 1,
@@ -269,6 +273,7 @@
       "ORBIT": 5,
       "METEOR": 6,
       "BIRTHDAY": 7
+      "225": -1
     };
 
     const TILE_TEXTS = [
@@ -320,12 +325,14 @@ It <b>reminds</b> you that you are <i>dealing</i> with something that is not as 
     ];
 
     const FINAL_MESSAGE = `
-      You’ve collected enough clues to triangulate the truth.<br><br>
-      <strong>Final instructions:</strong><br>
-      • Time: <strong>20:00</strong><br>
-      • Place: <strong>HaYarkon Park, riverside path near the big bend, on a bench with a view of the water.</strong><br><br>
-      Look for something glowing, slightly silly, and definitely for you. 🎂🌌
+      Good job Andrey! You’ve collected enough fragments.<br><br>
+      <strong>Final riddle:</strong><br>
+      But the last entry isn’t on this page.<br>
+      It’s on something you already have — something yellow, ordinary, and overlooked.<br><br>
+      Use the kind of light that reveals what the room refuses to show.<br><br>
+      <em>When you find the number, type it here.</em>
     `;
+
 
     const STORAGE_KEY = "andrey_birthday_quest_codes_v1";
 
@@ -425,6 +432,12 @@ It <b>reminds</b> you that you are <i>dealing</i> with something that is not as 
 
       const code = raw.toUpperCase();
       codeInput.value = "";
+
+            // If the final gate code is entered, go to the real ending
+      if (code === FINAL_GATE_CODE) {
+        window.location.href = ENDING_PAGE;
+        return;
+      }
 
       if (!VALID_CODES.hasOwnProperty(code)) {
         showMessage("That doesn’t seem to be a valid code. Try again… or find another clue.", "error");
