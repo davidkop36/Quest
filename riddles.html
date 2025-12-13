@@ -389,7 +389,7 @@ It <b>reminds</b> you that you are <i>dealing</i> with something that is not as 
 
     function updateProgressAndTiles(showFeedback) {
       const count = foundCodes.size;
-      const total = Object.keys(VALID_CODES).length;
+      const total = Object.keys(VALID_CODES).length - 1;
 
       if (count === 0) {
         progressEl.textContent = "You haven’t unlocked any clues yet.";
