@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title><b>Andrey</b>'s Birthday Quest </title>
+  <title>Andrey's Birthday Quest</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -45,7 +45,6 @@
       border: 1px solid rgba(148, 163, 184, 0.3);
       backdrop-filter: blur(4px);
     }
-
 
     .input-row {
       display: flex;
@@ -162,6 +161,7 @@
 
     .tile-text {
       font-size: 0.9rem;
+      white-space: pre-wrap; /* keeps your newlines in template literals */
     }
 
     .hint {
@@ -202,7 +202,13 @@
 </head>
 <body>
   <div class="container">
-    <h1>Andrey's Birthday Quest</h1>
+    <h1><b>Andrey</b>'s Birthday Quest</h1>
+
+    <!-- Your colored date hint belongs in the BODY, not inside <style> -->
+    <div class="hint" style="text-align:center; margin-bottom: 12px;">
+      <span style="color:red;">17</span><span style="color:blue;">12</span>2025
+    </div>
+
     <div class="subtitle">
       Hey, you. Enter any codes you discover in the real world. <br>
       Collect enough, and the final secret will unlock.
@@ -242,12 +248,8 @@
       </div>
     </div>
 
-    <div class="hint">
-    <span style="color:red;">17</span><span style="color:blue;">12</span>2025
-    </div>
-
     <div class="footer">
-      Hope you like it <3.
+      Hope you like it &lt;3.
     </div>
   </div>
 
@@ -273,12 +275,12 @@
       {
         label: "Fragment I",
         text: `You’ve already read this once.
-        Read it again, but slower. \n
+Read it again, but slower.
 
-        Some things are repeated.
-        Not by accident. \n
+Some things are repeated.
+Not by accident.
 
-        Don’t look for meaning yet.`
+Don’t look for meaning yet.`
       },
       {
         label: "Fragment II",
@@ -286,18 +288,18 @@
       },
       {
         label: "Fragment III",
-        text: : `Some numbers don’t come from thinking.
-      They come from living.
+        text: `Some numbers don’t come from thinking.
+They come from living.
 
-    They are constants written into our histories —
-    days when a single decision quietly changed everything.
+They are constants written into our histories —
+days when a single decision quietly changed everything.
 
-    At least, it did for one very visible foreign guy.`
+At least, it did for one very visible foreign guy.`
       },
       {
         label: "Fragment IV",
-        text: `Hey, there, answers <i>finder</i>. The answer to this puzzle is simple – NDEFAG. Not as a catchy nickname as "hot-guy" or  even "you", but it serves 
-               It <b>reminds</b> you that you are <i>dealing</i> with something that is not as it seems on the first glance.`
+        text: `Hey, there, answers <i>finder</i>. The answer to this puzzle is simple – NDEFAG. Not as a catchy nickname as "hot-guy" or even "you", but it serves.
+It <b>reminds</b> you that you are <i>dealing</i> with something that is not as it seems on the first glance.`
       },
       {
         label: "Fragment V",
@@ -352,7 +354,7 @@
 
         const text = document.createElement("div");
         text.className = "tile-text";
-        text.innerHTML = tile.text;   // <-- FIXED HERE
+        text.innerHTML = tile.text;
 
         div.appendChild(label);
         div.appendChild(text);
