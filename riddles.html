@@ -43,11 +43,7 @@
       backdrop-filter: blur(4px);
     }
 
-    .input-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
+    .input-row { display: flex; gap: 8px; margin-bottom: 8px; }
 
     input[type="text"] {
       flex: 1;
@@ -143,13 +139,13 @@
     <h1><b>Andrey</b>'s Birthday Quest</h1>
 
     <div class="subtitle">
-      Enter codes you discover.<br>
-      You don’t need them all.
+      Hey, you. Enter any codes you discover.<br>
+      Collect enough, and the final secret will unlock.
     </div>
 
     <div class="card">
       <div class="input-row">
-        <input id="code-input" type="text" placeholder="Enter a code…" autocomplete="off">
+        <input id="code-input" type="text" placeholder="Type a code…" autocomplete="off">
         <button id="submit-btn">Unlock</button>
       </div>
 
@@ -158,12 +154,12 @@
       <div id="tiles-grid" class="tiles-grid"></div>
 
       <div id="final-section">
-        <div><b>Final Secret Unlocked</b></div>
+        <div id="final-title">Final Secret Unlocked</div>
         <div id="final-text"></div>
       </div>
     </div>
 
-    <div class="footer">Hope you like it &lt;3</div>
+    <div class="footer">Hope you like it &lt;3.</div>
   </div>
 
 <script>
@@ -175,30 +171,72 @@
     "2": 0,
     "11": 1,
     "07122024": 2,
-    "7": 3,
     "SEVEN": 3,
+    "7": 3,
     "GEOCACHE": 4,
     "ORBIT": 5,
     "METEOR": 6,
-    "BIRTHDAY": 7
+    "BIRTHDAY": 7,
+    "225": -1
   };
 
+  /* ---------- UNCHANGED ---------- */
   const TILE_TEXTS = [
-    { label: "Fragment I", text: "Read it again. Slower." },
-    { label: "Fragment II", text: "Thresholds matter." },
-    { label: "Fragment III", text: "Some numbers are lived, not solved." },
-    { label: "Fragment IV", text: "Genei. Same meaning. Different skin." },
-    { label: "Fragment V", text: "A small celebration waits." },
-    { label: "Fragment VI", text: "Follow the candles." },
-    { label: "Fragment VII", text: "Trust the compass." },
-    { label: "Fragment VIII", text: "Ask the quest-master." }
+    {
+      label: "Fragment I",
+      text: `You’ve already read this once.
+Read it again, but slower.
+
+Some things are repeated.
+Not by accident.
+
+Don’t look for meaning yet.`
+    },
+    {
+      label: "Fragment II",
+      text: `Some numbers don’t need to be solved.
+They are already written into your routine.
+
+You pass this one at the beginning and the end of most days.
+It’s part of coming and going.
+
+Notice what marks the threshold.`
+    },
+    {
+      label: "Fragment III",
+      text: `Some numbers don’t come from thinking.
+They come from living.
+
+They are constants written into our histories —
+days when a single decision quietly changed everything.
+
+At least, it did for one very visible foreign guy.`
+    },
+    {
+      label: "Fragment IV",
+      text: `Hey, there, answers <i>finder</i>. The answer to this puzzle is simple – <i>genei</i>. A useful tool for repharsing and re-expressing the same information. And yet, it also <b>reminds</b> you that you are <i>dealing</i> 
+with something that is not as it seems on the first glance.
+
+I know, <b>very</b> <i>nerd</i>-like of me.`
+    },
+    { label: "Fragment V", text: "There will be a small celebration waiting – for one very specific Andrey." },
+    { label: "Fragment VI", text: "Follow the glow of candles and maybe something slightly ridiculous." },
+    { label: "Fragment VII", text: "If you’re not sure which bench, trust the compass of our shared adventures." },
+    { label: "Fragment VIII", text: "When in doubt, message your favorite quest-master for one last hint." }
   ];
 
   const FINAL_MESSAGE = `
-    The last clue is not here.<br>
-    It’s on something you already have.<br>
-    Use the right light.
-  `;
+      Good job Andrey! You’ve collected enough fragments.<br><br>
+      <strong>Final riddle:</strong><br>
+      But the last entry isn’t on this page.<br>
+      It’s on a souvenir that still smells like a holiday.<br>
+      Green leaves, yellow promise.<br><br>
+
+      Together with one more thing.<br>
+      Maybe we didn’t find any scorpions with it —<br>
+      but you might find something else.<br><br>
+    `;
+  /* ---------- END UNCHANGED ---------- */
 
   const STORAGE_KEY = "andrey_birthday_quest_tiles_v1";
 
@@ -230,7 +268,9 @@
       const d = document.createElement("div");
       d.className = "tile";
       d.dataset.index = i;
-      d.innerHTML = `<div class="tile-label">${t.label}</div><div class="tile-text">${t.text}</div>`;
+      d.innerHTML =
+        `<div class="tile-label">${t.label}</div>
+         <div class="tile-text">${t.text}</div>`;
       tilesGrid.appendChild(d);
     });
   }
@@ -241,8 +281,8 @@
 
     progressEl.textContent =
       count === 0
-        ? "No clues unlocked yet."
-        : `Unlocked ${count} out of ${total} clues.`;
+        ? "You haven’t unlocked any clues yet."
+        : `You’ve unlocked ${count} out of ${total} clues.`;
 
     document.querySelectorAll(".tile").forEach(t => t.classList.remove("revealed"));
     unlockedTiles.forEach(i => {
@@ -250,8 +290,12 @@
       if (tile) tile.classList.add("revealed");
     });
 
-    finalSection.style.display = count >= MIN_CODES_REQUIRED ? "block" : "none";
-    if (count >= MIN_CODES_REQUIRED) finalText.innerHTML = FINAL_MESSAGE;
+    if (count >= MIN_CODES_REQUIRED) {
+      finalSection.style.display = "block";
+      finalText.innerHTML = FINAL_MESSAGE;
+    } else {
+      finalSection.style.display = "none";
+    }
   }
 
   function submitCode() {
@@ -264,21 +308,21 @@
     }
 
     if (!(code in VALID_CODES)) {
-      messageEl.textContent = "Invalid code.";
+      messageEl.textContent = "That doesn’t seem to be a valid code.";
       messageEl.className = "message error";
       return;
     }
 
     const idx = VALID_CODES[code];
-    if (unlockedTiles.has(idx)) {
-      messageEl.textContent = "That fragment is already unlocked.";
+    if (idx < 0 || unlockedTiles.has(idx)) {
+      messageEl.textContent = "You already unlocked this fragment.";
       messageEl.className = "message error";
       return;
     }
 
     unlockedTiles.add(idx);
     saveUnlockedTiles();
-    messageEl.textContent = "Fragment unlocked.";
+    messageEl.textContent = "Code accepted. A new fragment has been unlocked.";
     messageEl.className = "message ok";
     updateUI();
   }
