@@ -277,7 +277,7 @@ I know, <b>very</b> <i>nerd</i>-like of me.`
       but you might find something else.<br><br>
     `;
 
-    const STORAGE_KEY = "andrey_birthday_quest_codes_v1";
+    const STORAGE_KEY = "andrey_birthday_quest_tiles_v1";
 
     const codeInput = document.getElementById("code-input");
     const submitBtn = document.getElementById("submit-btn");
@@ -322,10 +322,11 @@ I know, <b>very</b> <i>nerd</i>-like of me.`
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...set])); } catch {}
     }
 
-    let foundCodes = loadFoundCodes();
+    let unlockedTiles = loadFoundCodes(); // stores numbers: 0–7
 
     function updateProgressAndTiles(showFeedback) {
       const count = foundCodes.size;
+      const count = unlockedTiles.size;
       const total = 8;
 
       if (count === 0) {
@@ -339,11 +340,11 @@ I know, <b>very</b> <i>nerd</i>-like of me.`
       const allTiles = tilesGrid.querySelectorAll(".tile");
       allTiles.forEach(t => t.classList.remove("revealed"));
 
-      foundCodes.forEach(code => {
-        const tileIndex = VALID_CODES[code];
+      unlockedTiles.forEach(tileIndex => {
         const tileEl = tilesGrid.querySelector(`.tile[data-index="${tileIndex}"]`);
         if (tileEl) tileEl.classList.add("revealed");
       });
+
 
       if (count >= MIN_CODES_REQUIRED) {
         finalSection.style.display = "block";
@@ -380,13 +381,15 @@ I know, <b>very</b> <i>nerd</i>-like of me.`
         return;
       }
 
-      if (foundCodes.has(code)) {
-        showMessage("You already used that code. The clue is still valid – but you can’t double-count it.", "error");
-        return;
-      }
-
-      foundCodes.add(code);
-      saveFoundCodes(foundCodes);
+    const tileIndex = VALID_CODES[code];
+    
+    if (unlockedTiles.has(tileIndex)) {
+      showMessage("You already unlocked this fragment.", "error");
+      return;
+    }
+    
+    unlockedTiles.add(tileIndex);
+    saveFoundCodes(unlockedTiles);
       showMessage("Code accepted. A new fragment has been unlocked.", "ok");
       updateProgressAndTiles(false);
     }
