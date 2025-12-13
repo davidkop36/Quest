@@ -268,7 +268,8 @@
       "2": 0,
       "11": 1,
       "07122024": 2,
-      "DREAMS": 3,
+      "SEVEN": 3,
+      "7":3,
       "GEOCACHE": 4,
       "ORBIT": 5,
       "METEOR": 6,
@@ -304,9 +305,8 @@ Notice what marks the threshold.`
       {
         label: "Fragment IV",
         text: `Hey, there, answers <i>finder</i>. The answer to this puzzle is simple – GENEI. Not as a catchy nickname as "hot-guy" or even "you", but it <b>reminds</b> you that you are <i>dealing</i> with something that is not as it seems on the first glance.
-        I know,  <b>very</b> <i>nerd</i>-like of me.
         
-        `
+        I know,  <b>very</b> <i>nerd</i>-like of me.`
       },
       {
         label: "Fragment V",
@@ -395,7 +395,7 @@ Together with one more thing.<br>
 
     function updateProgressAndTiles(showFeedback) {
       const count = foundCodes.size;
-      const total = Object.keys(VALID_CODES).length - 1;
+      const total =  8;
 
       if (count === 0) {
         progressEl.textContent = "You haven’t unlocked any clues yet.";
