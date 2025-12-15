@@ -399,7 +399,13 @@ There is only one way to know:
   }
 
   document.getElementById("submit-btn").onclick = submitCode;
-  codeInput.onkeydown = e => e.key === "Enter" && submitCode();
+  codeInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    submitCode();
+  }
+});
+
 
   createTiles();
   updateUI();
