@@ -170,8 +170,10 @@
   const MIN_CODES_REQUIRED = 5;
   const FINAL_GATE_CODE = "225";
   const SECRET_GATE_CODE= "77856";
+  const STICKY_GATE_CODE= "484";
   const ENDING_PAGE = "./ending.html";
   const HIDDEN_PAGE = "./eye.html";
+  const STICKY_PAGE = "./sticky.html";
 
   const VALID_CODES = {
     "30": 0,
@@ -381,6 +383,11 @@ There is only one way to know:
 
       if (code === SECRET_GATE_CODE) {
       window.location.href = HIDDEN_PAGE;
+      return;
+    }
+
+    if (code === STICKY_GATE_CODE) {
+      window.location.href = STICKY_PAGE;
       return;
     }
 
